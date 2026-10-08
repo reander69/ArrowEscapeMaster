@@ -1,0 +1,50 @@
+com.arrowescape.master.app-ui-test-manifest-1.6.8-0 /home/kamrul-hasan-riyad/.gradle/caches/8.12/transforms/01be89475bdcf3af80c89901274242e3/transformed/ui-test-manifest-1.6.8/res
+com.arrowescape.master.app-ui-unit-release-1 /home/kamrul-hasan-riyad/.gradle/caches/8.12/transforms/09077d1cc23c9dfb9f7c7b381b93e5d4/transformed/ui-unit-release/res
+com.arrowescape.master.app-savedstate-ktx-1.2.1-2 /home/kamrul-hasan-riyad/.gradle/caches/8.12/transforms/1ab113cf168190b2d778c5e741beecd2/transformed/savedstate-ktx-1.2.1/res
+com.arrowescape.master.app-lifecycle-runtime-ktx-release-3 /home/kamrul-hasan-riyad/.gradle/caches/8.12/transforms/29f28df4087cc4a4fd56c079bbf349fb/transformed/lifecycle-runtime-ktx-release/res
+com.arrowescape.master.app-lifecycle-runtime-release-4 /home/kamrul-hasan-riyad/.gradle/caches/8.12/transforms/2c79bf8cbfcda88b7a287f7118193a6b/transformed/lifecycle-runtime-release/res
+com.arrowescape.master.app-startup-runtime-1.1.1-5 /home/kamrul-hasan-riyad/.gradle/caches/8.12/transforms/3064f72bb7461ada76f657c4744390ea/transformed/startup-runtime-1.1.1/res
+com.arrowescape.master.app-emoji2-1.3.0-6 /home/kamrul-hasan-riyad/.gradle/caches/8.12/transforms/39d4a39878ffe79e46278f23b4e28cb2/transformed/emoji2-1.3.0/res
+com.arrowescape.master.app-foundation-release-7 /home/kamrul-hasan-riyad/.gradle/caches/8.12/transforms/3f7bbf34358d90ddd8c7cd6ecffafb52/transformed/foundation-release/res
+com.arrowescape.master.app-material-ripple-release-8 /home/kamrul-hasan-riyad/.gradle/caches/8.12/transforms/58826067b52beea735d7bc047ecd164d/transformed/material-ripple-release/res
+com.arrowescape.master.app-lifecycle-viewmodel-release-9 /home/kamrul-hasan-riyad/.gradle/caches/8.12/transforms/5e56ccc68d96e6596b6e4e3a43aabadc/transformed/lifecycle-viewmodel-release/res
+com.arrowescape.master.app-customview-poolingcontainer-1.0.0-10 /home/kamrul-hasan-riyad/.gradle/caches/8.12/transforms/5e980b366370ba511bb77f098008a0da/transformed/customview-poolingcontainer-1.0.0/res
+com.arrowescape.master.app-lifecycle-viewmodel-savedstate-2.8.4-11 /home/kamrul-hasan-riyad/.gradle/caches/8.12/transforms/60420819713aca2fb34555159f421e76/transformed/lifecycle-viewmodel-savedstate-2.8.4/res
+com.arrowescape.master.app-runtime-saveable-release-12 /home/kamrul-hasan-riyad/.gradle/caches/8.12/transforms/612a90115db4d3c8080be1c5e0736459/transformed/runtime-saveable-release/res
+com.arrowescape.master.app-datastore-preferences-release-13 /home/kamrul-hasan-riyad/.gradle/caches/8.12/transforms/6587c5856ba01c7e7aa670359d2f2c25/transformed/datastore-preferences-release/res
+com.arrowescape.master.app-foundation-layout-release-14 /home/kamrul-hasan-riyad/.gradle/caches/8.12/transforms/69d2160c31c62ce2df86b37668a58931/transformed/foundation-layout-release/res
+com.arrowescape.master.app-material-release-15 /home/kamrul-hasan-riyad/.gradle/caches/8.12/transforms/6c492a5bfab44936b1542abd1096b879/transformed/material-release/res
+com.arrowescape.master.app-ui-release-16 /home/kamrul-hasan-riyad/.gradle/caches/8.12/transforms/703316c8929f5f05ecb1e0bdf3663d7b/transformed/ui-release/res
+com.arrowescape.master.app-lifecycle-livedata-core-2.8.4-17 /home/kamrul-hasan-riyad/.gradle/caches/8.12/transforms/79c7415baa52f898af26923c518b8f01/transformed/lifecycle-livedata-core-2.8.4/res
+com.arrowescape.master.app-lifecycle-process-2.8.4-18 /home/kamrul-hasan-riyad/.gradle/caches/8.12/transforms/7eda81719b950097c1d29b19bcef4473/transformed/lifecycle-process-2.8.4/res
+com.arrowescape.master.app-core-runtime-2.2.0-19 /home/kamrul-hasan-riyad/.gradle/caches/8.12/transforms/8d4fc4301a40c94f0a1254fa2f676f54/transformed/core-runtime-2.2.0/res
+com.arrowescape.master.app-profileinstaller-1.3.1-20 /home/kamrul-hasan-riyad/.gradle/caches/8.12/transforms/99c358b2ff016313e071294fef01b053/transformed/profileinstaller-1.3.1/res
+com.arrowescape.master.app-animation-core-release-21 /home/kamrul-hasan-riyad/.gradle/caches/8.12/transforms/9bc8973ff8685c8238985af369ce0229/transformed/animation-core-release/res
+com.arrowescape.master.app-ui-tooling-preview-release-22 /home/kamrul-hasan-riyad/.gradle/caches/8.12/transforms/9dea4a772105cfc49eb1ab898d147c89/transformed/ui-tooling-preview-release/res
+com.arrowescape.master.app-core-ktx-1.13.1-23 /home/kamrul-hasan-riyad/.gradle/caches/8.12/transforms/ad10132d3e3da2ef90582be89eb3a726/transformed/core-ktx-1.13.1/res
+com.arrowescape.master.app-runtime-release-24 /home/kamrul-hasan-riyad/.gradle/caches/8.12/transforms/b8dc4267f63a9a8e2e9195d1eaea40b6/transformed/runtime-release/res
+com.arrowescape.master.app-material3-release-25 /home/kamrul-hasan-riyad/.gradle/caches/8.12/transforms/be735150c9b780afe68c3e53bccfaf43/transformed/material3-release/res
+com.arrowescape.master.app-material-icons-core-release-26 /home/kamrul-hasan-riyad/.gradle/caches/8.12/transforms/bf08e125f7c4dd0d67f0d3eadacea737/transformed/material-icons-core-release/res
+com.arrowescape.master.app-ui-graphics-release-27 /home/kamrul-hasan-riyad/.gradle/caches/8.12/transforms/bff30c2b0ea911898949408e14d0c710/transformed/ui-graphics-release/res
+com.arrowescape.master.app-savedstate-1.2.1-28 /home/kamrul-hasan-riyad/.gradle/caches/8.12/transforms/c51884148864fb31d21ff08c98b37168/transformed/savedstate-1.2.1/res
+com.arrowescape.master.app-core-1.13.1-29 /home/kamrul-hasan-riyad/.gradle/caches/8.12/transforms/c90a27f3e985048cb807f7e42aafe015/transformed/core-1.13.1/res
+com.arrowescape.master.app-activity-compose-1.9.1-30 /home/kamrul-hasan-riyad/.gradle/caches/8.12/transforms/c960f52d3b3cec87634c6dfaa72eaee9/transformed/activity-compose-1.9.1/res
+com.arrowescape.master.app-ui-tooling-data-release-31 /home/kamrul-hasan-riyad/.gradle/caches/8.12/transforms/cb5ec283fa199b934084b08e44b5dbcc/transformed/ui-tooling-data-release/res
+com.arrowescape.master.app-annotation-experimental-1.4.0-32 /home/kamrul-hasan-riyad/.gradle/caches/8.12/transforms/d31fc3a2fa8de4942bd592f288ec667f/transformed/annotation-experimental-1.4.0/res
+com.arrowescape.master.app-ui-util-release-33 /home/kamrul-hasan-riyad/.gradle/caches/8.12/transforms/d70e12cb5a3d9f298c10cb5605d43192/transformed/ui-util-release/res
+com.arrowescape.master.app-lifecycle-viewmodel-ktx-2.8.4-34 /home/kamrul-hasan-riyad/.gradle/caches/8.12/transforms/d90be45562183ef42e1b3d31de0dd4d3/transformed/lifecycle-viewmodel-ktx-2.8.4/res
+com.arrowescape.master.app-lifecycle-viewmodel-compose-release-35 /home/kamrul-hasan-riyad/.gradle/caches/8.12/transforms/dad68677852d99f6ec5f407549aafd48/transformed/lifecycle-viewmodel-compose-release/res
+com.arrowescape.master.app-activity-ktx-1.9.1-36 /home/kamrul-hasan-riyad/.gradle/caches/8.12/transforms/e04a7a1c8898dd6770fdb9f9884dd423/transformed/activity-ktx-1.9.1/res
+com.arrowescape.master.app-datastore-release-37 /home/kamrul-hasan-riyad/.gradle/caches/8.12/transforms/e0854fab9a86d7c4e750166d992bf740/transformed/datastore-release/res
+com.arrowescape.master.app-animation-release-38 /home/kamrul-hasan-riyad/.gradle/caches/8.12/transforms/e8c4d47967ea655269e34205dd1cb77f/transformed/animation-release/res
+com.arrowescape.master.app-ui-geometry-release-39 /home/kamrul-hasan-riyad/.gradle/caches/8.12/transforms/ee85bfc24021657fb9cd96dcd084594d/transformed/ui-geometry-release/res
+com.arrowescape.master.app-datastore-core-release-40 /home/kamrul-hasan-riyad/.gradle/caches/8.12/transforms/f7f8523cef30b2211a13d86c2a8fb8cb/transformed/datastore-core-release/res
+com.arrowescape.master.app-ui-tooling-release-41 /home/kamrul-hasan-riyad/.gradle/caches/8.12/transforms/f8fc64081924e028a5d3bd38c4583d59/transformed/ui-tooling-release/res
+com.arrowescape.master.app-ui-text-release-42 /home/kamrul-hasan-riyad/.gradle/caches/8.12/transforms/fb74aa7b14c4b3cb71c00cb53afbb90c/transformed/ui-text-release/res
+com.arrowescape.master.app-activity-1.9.1-43 /home/kamrul-hasan-riyad/.gradle/caches/8.12/transforms/fde350bf44a2ec77a0b70fb505eb9b3e/transformed/activity-1.9.1/res
+com.arrowescape.master.app-resValues-44 /home/kamrul-hasan-riyad/Downloads/Android project/Arrow Escape Master/app/build/generated/res/resValues/debug
+com.arrowescape.master.app-packageDebugResources-45 /home/kamrul-hasan-riyad/Downloads/Android project/Arrow Escape Master/app/build/intermediates/incremental/debug/packageDebugResources/merged.dir
+com.arrowescape.master.app-packageDebugResources-46 /home/kamrul-hasan-riyad/Downloads/Android project/Arrow Escape Master/app/build/intermediates/incremental/debug/packageDebugResources/stripped.dir
+com.arrowescape.master.app-debug-47 /home/kamrul-hasan-riyad/Downloads/Android project/Arrow Escape Master/app/build/intermediates/merged_res/debug/mergeDebugResources
+com.arrowescape.master.app-debug-48 /home/kamrul-hasan-riyad/Downloads/Android project/Arrow Escape Master/app/src/debug/res
+com.arrowescape.master.app-main-49 /home/kamrul-hasan-riyad/Downloads/Android project/Arrow Escape Master/app/src/main/res
