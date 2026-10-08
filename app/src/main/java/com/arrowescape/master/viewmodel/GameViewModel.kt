@@ -35,7 +35,14 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     val soundManager = SoundManager(application)
     val hapticManager = HapticManager(application)
 
-    private val _gameState = MutableStateFlow(GameState())
+    private val _gameState = MutableStateFlow(
+        GameState(
+            highestUnlockedLevel = repository.highestUnlockedLevel.value,
+            totalClearedCount = repository.totalClearedCount.value,
+            currentTheme = repository.selectedTheme.value,
+            isSoundEnabled = repository.isSoundEnabled.value
+        )
+    )
     val gameState: StateFlow<GameState> = _gameState.asStateFlow()
 
     private val _particles = MutableStateFlow<List<Particle>>(emptyList())
@@ -202,7 +209,6 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
             )
         }
 
-        // Ultra-fluent 120 FPS high-refresh-rate coroutine ticker
         viewModelScope.launch {
             val totalFrames = 22
             for (f in 1..totalFrames) {
@@ -378,12 +384,13 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
         val state = _gameState.value
         if (state.status != GameStatus.PLAYING) return
 
-        val escapable = PuzzleSolver.findNextEscapableArrow(state.grid, state.rows, state.cols)
-        if (escapable != null) {
+        // Use intelligent PuzzleSolver.findNextHintTile supporting shields and rotators
+        val hintTile = PuzzleSolver.findNextHintTile(state.grid, state.rows, state.cols)
+        if (hintTile != null) {
             soundManager.play(SoundEffect.TAP)
             hapticManager.performHaptic(HapticType.LIGHT_TAP, state.isSoundEnabled)
-            _gameState.update { it.copy(hintArrowId = escapable.id) }
-            spawnHintHighlightParticles(escapable)
+            _gameState.update { it.copy(hintArrowId = hintTile.id) }
+            spawnHintHighlightParticles(hintTile)
         }
     }
 
@@ -473,16 +480,16 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
         val theme = _gameState.value.themeColors
         val particlesList = mutableListOf<Particle>()
 
-        for (i in 0 until 28) {
+        for (i in 0 until 24) {
             particlesList.add(
                 Particle(
                     x = arrow.col.toFloat() + 0.5f,
                     y = arrow.row.toFloat() + 0.5f,
-                    vx = (Random.nextFloat() - 0.5f) * 0.22f,
-                    vy = (Random.nextFloat() - 0.5f) * 0.22f,
+                    vx = (Random.nextFloat() - 0.5f) * 0.2f,
+                    vy = (Random.nextFloat() - 0.5f) * 0.2f,
                     color = theme.shieldArmor,
-                    maxAge = 24,
-                    size = Random.nextFloat() * 10f + 3f,
+                    maxAge = 22,
+                    size = Random.nextFloat() * 9f + 3f,
                     type = ParticleType.GLOW_DOT
                 )
             )
@@ -538,7 +545,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     private fun startParticleEngine() {
         viewModelScope.launch {
             while (true) {
-                delay(10) // ~100 FPS ultra-fluent particle updates
+                delay(10)
                 if (_particles.value.isNotEmpty()) {
                     _particles.update { list ->
                         list.mapNotNull { p ->

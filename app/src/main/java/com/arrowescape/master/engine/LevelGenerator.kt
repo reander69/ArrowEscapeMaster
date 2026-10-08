@@ -34,17 +34,15 @@ object LevelGenerator {
         }
 
         val allowRotators = levelNum >= 12
-        val allowShields = levelNum >= 25
 
-        // Attempt reverse generation with fallback to ensure 100% guaranteed solvability
-        for (attempt in 0 until 50) {
+        // Attempt generation with strict PuzzleSolver solvability validation loop
+        for (attempt in 0 until 300) {
             val grid = buildCandidateGrid(
                 rows = rows,
                 cols = cols,
                 rockCount = rockCount,
                 allowRotators = allowRotators,
-                allowShields = allowShields,
-                seed = (levelNum * 1000 + attempt).toLong()
+                seed = (levelNum * 1999 + attempt).toLong()
             )
 
             if (PuzzleSolver.isSolvable(grid, rows, cols)) {
@@ -52,7 +50,7 @@ object LevelGenerator {
             }
         }
 
-        // Fallback: guaranteed simple solvable grid if random iterations fail
+        // Fallback: guaranteed simple solvable grid
         return buildGuaranteedFallbackGrid(rows, cols)
     }
 
@@ -61,13 +59,12 @@ object LevelGenerator {
         cols: Int,
         rockCount: Int,
         allowRotators: Boolean,
-        allowShields: Boolean,
         seed: Long
     ): List<List<GridTile>> {
         val random = Random(seed)
         val gridMatrix = Array(rows) { Array<GridTile>(cols) { GridTile.Empty } }
 
-        // 1. Place Rocks randomly (avoiding covering every edge)
+        // 1. Place Rocks
         var placedRocks = 0
         val maxRocks = rockCount.coerceAtMost((rows * cols) / 6)
         while (placedRocks < maxRocks) {
@@ -79,7 +76,7 @@ object LevelGenerator {
             }
         }
 
-        // 2. Fill empty cells with arrows using reverse solvability placement
+        // 2. Fill empty cells with arrows
         val emptyCells = mutableListOf<Pair<Int, Int>>()
         for (r in 0 until rows) {
             for (c in 0 until cols) {
@@ -90,14 +87,13 @@ object LevelGenerator {
         }
         emptyCells.shuffle(random)
 
-        val totalArrows = (emptyCells.size * 0.85).toInt().coerceAtLeast(3)
+        val totalArrows = (emptyCells.size * 0.75f).toInt().coerceAtLeast(3)
         val placedArrows = emptyCells.take(totalArrows)
 
         for (cell in placedArrows) {
             val r = cell.first
             val c = cell.second
 
-            // Find valid escape directions from this cell
             val validDirs = Direction.entries.filter { dir ->
                 isPathToBorderClearOfRocks(gridMatrix, r, c, dir, rows, cols)
             }
@@ -108,10 +104,17 @@ object LevelGenerator {
                 Direction.entries.random(random)
             }
 
-            val isRotator = allowRotators && random.nextFloat() < 0.25f
-            val shieldCount = if (allowShields && random.nextFloat() < 0.20f) {
-                if (random.nextBoolean()) 1 else 2
-            } else 0
+            val isPathClear = isPathToBorderClearOfRocks(gridMatrix, r, c, chosenDir, rows, cols)
+            
+            var isRotator = allowRotators && (!isPathClear || random.nextFloat() < 0.30f)
+            if (isRotator) {
+                val hasAnyClearRotation = Direction.entries.any { d ->
+                    isPathToBorderClearOfRocks(gridMatrix, r, c, d, rows, cols)
+                }
+                if (!hasAnyClearRotation) {
+                    isRotator = false
+                }
+            }
 
             gridMatrix[r][c] = GridTile.ArrowTile(
                 id = UUID.randomUUID().toString(),
@@ -119,8 +122,8 @@ object LevelGenerator {
                 col = c,
                 direction = chosenDir,
                 isRotator = isRotator,
-                shieldCount = shieldCount,
-                initialShieldCount = shieldCount
+                shieldCount = 0,
+                initialShieldCount = 0
             )
         }
 
@@ -152,16 +155,14 @@ object LevelGenerator {
         cols: Int
     ): List<List<GridTile>> {
         val gridMatrix = Array(rows) { Array<GridTile>(cols) { GridTile.Empty } }
-        // Place outward-pointing arrows along edges and center
         for (r in 0 until rows) {
             for (c in 0 until cols) {
                 val dir = when {
                     r == 0 -> Direction.UP
                     r == rows - 1 -> Direction.DOWN
                     c == 0 -> Direction.LEFT
-                    c == cols - 1 -> Direction.RIGHT
-                    r < rows / 2 -> Direction.UP
-                    else -> Direction.DOWN
+                    c == 1 -> Direction.RIGHT
+                    else -> Direction.UP
                 }
 
                 gridMatrix[r][c] = GridTile.ArrowTile(

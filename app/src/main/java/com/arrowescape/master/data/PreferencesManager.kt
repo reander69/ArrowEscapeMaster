@@ -1,91 +1,74 @@
 package com.arrowescape.master.data
 
 import android.content.Context
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.booleanPreferencesKey
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.intPreferencesKey
-import androidx.datastore.preferences.core.stringPreferencesKey
-import androidx.datastore.preferences.preferencesDataStore
+import android.content.SharedPreferences
 import com.arrowescape.master.model.ThemeType
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
-private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "arrow_escape_prefs")
+class PreferencesManager(context: Context) {
 
-class PreferencesManager(private val context: Context) {
+    private val prefs: SharedPreferences = context.getSharedPreferences("arrow_escape_game_prefs", Context.MODE_PRIVATE)
 
-    companion object {
-        private val KEY_HIGHEST_LEVEL = intPreferencesKey("highest_unlocked_level")
-        private val KEY_CLEARED_COUNT = intPreferencesKey("total_cleared_count")
-        private val KEY_SELECTED_THEME = stringPreferencesKey("selected_theme")
-        private val KEY_SOUND_ENABLED = booleanPreferencesKey("is_sound_enabled")
-    }
+    private val _highestUnlockedLevel = MutableStateFlow(prefs.getInt(KEY_HIGHEST_LEVEL, 1))
+    val highestUnlockedLevel: StateFlow<Int> = _highestUnlockedLevel.asStateFlow()
 
-    val highestUnlockedLevel: Flow<Int> = context.dataStore.data.map { prefs ->
-        prefs[KEY_HIGHEST_LEVEL] ?: 1
-    }
+    private val _totalClearedCount = MutableStateFlow(prefs.getInt(KEY_CLEARED_COUNT, 0))
+    val totalClearedCount: StateFlow<Int> = _totalClearedCount.asStateFlow()
 
-    val totalClearedCount: Flow<Int> = context.dataStore.data.map { prefs ->
-        prefs[KEY_CLEARED_COUNT] ?: 0
-    }
-
-    val selectedTheme: Flow<ThemeType> = context.dataStore.data.map { prefs ->
-        val themeName = prefs[KEY_SELECTED_THEME] ?: ThemeType.NEON_CYBER.name
+    private val _selectedTheme = MutableStateFlow(
         try {
-            ThemeType.valueOf(themeName)
+            ThemeType.valueOf(prefs.getString(KEY_SELECTED_THEME, ThemeType.NEON_CYBER.name) ?: ThemeType.NEON_CYBER.name)
         } catch (e: Exception) {
             ThemeType.NEON_CYBER
         }
+    )
+    val selectedTheme: StateFlow<ThemeType> = _selectedTheme.asStateFlow()
+
+    private val _isSoundEnabled = MutableStateFlow(prefs.getBoolean(KEY_SOUND_ENABLED, true))
+    val isSoundEnabled: StateFlow<Boolean> = _isSoundEnabled.asStateFlow()
+
+    fun getStarsForLevel(level: Int): Int {
+        return prefs.getInt("level_stars_$level", 0)
     }
 
-    val isSoundEnabled: Flow<Boolean> = context.dataStore.data.map { prefs ->
-        prefs[KEY_SOUND_ENABLED] ?: true
-    }
-
-    fun getStarsForLevel(level: Int): Flow<Int> {
-        val key = intPreferencesKey("level_stars_$level")
-        return context.dataStore.data.map { prefs ->
-            prefs[key] ?: 0
+    fun saveHighestUnlockedLevel(level: Int) {
+        val current = prefs.getInt(KEY_HIGHEST_LEVEL, 1)
+        if (level > current) {
+            prefs.edit().putInt(KEY_HIGHEST_LEVEL, level).apply()
+            _highestUnlockedLevel.value = level
         }
     }
 
-    suspend fun saveHighestUnlockedLevel(level: Int) {
-        context.dataStore.edit { prefs ->
-            val current = prefs[KEY_HIGHEST_LEVEL] ?: 1
-            if (level > current) {
-                prefs[KEY_HIGHEST_LEVEL] = level
-            }
+    fun incrementClearedCount() {
+        val current = prefs.getInt(KEY_CLEARED_COUNT, 0) + 1
+        prefs.edit().putInt(KEY_CLEARED_COUNT, current).apply()
+        _totalClearedCount.value = current
+    }
+
+    fun saveTheme(theme: ThemeType) {
+        prefs.edit().putString(KEY_SELECTED_THEME, theme.name).apply()
+        _selectedTheme.value = theme
+    }
+
+    fun saveSoundEnabled(enabled: Boolean) {
+        prefs.edit().putBoolean(KEY_SOUND_ENABLED, enabled).apply()
+        _isSoundEnabled.value = enabled
+    }
+
+    fun saveLevelStars(level: Int, stars: Int) {
+        val key = "level_stars_$level"
+        val current = prefs.getInt(key, 0)
+        if (stars > current) {
+            prefs.edit().putInt(key, stars).apply()
         }
     }
 
-    suspend fun incrementClearedCount() {
-        context.dataStore.edit { prefs ->
-            val current = prefs[KEY_CLEARED_COUNT] ?: 0
-            prefs[KEY_CLEARED_COUNT] = current + 1
-        }
-    }
-
-    suspend fun saveTheme(theme: ThemeType) {
-        context.dataStore.edit { prefs ->
-            prefs[KEY_SELECTED_THEME] = theme.name
-        }
-    }
-
-    suspend fun saveSoundEnabled(enabled: Boolean) {
-        context.dataStore.edit { prefs ->
-            prefs[KEY_SOUND_ENABLED] = enabled
-        }
-    }
-
-    suspend fun saveLevelStars(level: Int, stars: Int) {
-        val key = intPreferencesKey("level_stars_$level")
-        context.dataStore.edit { prefs ->
-            val current = prefs[key] ?: 0
-            if (stars > current) {
-                prefs[key] = stars
-            }
-        }
+    companion object {
+        private const val KEY_HIGHEST_LEVEL = "highest_unlocked_level"
+        private const val KEY_CLEARED_COUNT = "total_cleared_count"
+        private const val KEY_SELECTED_THEME = "selected_theme"
+        private const val KEY_SOUND_ENABLED = "is_sound_enabled"
     }
 }

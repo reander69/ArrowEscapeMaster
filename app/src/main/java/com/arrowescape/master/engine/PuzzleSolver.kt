@@ -31,13 +31,17 @@ object PuzzleSolver {
     }
 
     /**
-     * Finds any arrow tile that can escape immediately without obstruction.
+     * Intelligent Hint finder:
+     * 1. Finds an arrow that can escape immediately.
+     * 2. If none, finds a shielded arrow whose armor needs to be cracked.
+     * 3. If none, finds a rotator arrow that can be rotated.
      */
-    fun findNextEscapableArrow(
+    fun findNextHintTile(
         grid: List<List<GridTile>>,
         rows: Int,
         cols: Int
     ): GridTile.ArrowTile? {
+        // 1. Check for free escaping arrows
         for (r in 0 until rows) {
             for (c in 0 until cols) {
                 val tile = grid[r][c]
@@ -48,6 +52,34 @@ object PuzzleSolver {
                 }
             }
         }
+
+        // 2. Check for shielded arrows that need armor cracking
+        for (r in 0 until rows) {
+            for (c in 0 until cols) {
+                val tile = grid[r][c]
+                if (tile is GridTile.ArrowTile && tile.shieldCount > 0) {
+                    return tile
+                }
+            }
+        }
+
+        // 3. Check for rotator arrows
+        for (r in 0 until rows) {
+            for (c in 0 until cols) {
+                val tile = grid[r][c]
+                if (tile is GridTile.ArrowTile && tile.isRotator) {
+                    var rotDir = tile.direction.rotateClockwise()
+                    for (i in 0 until 3) {
+                        val testTile = tile.copyWithNewDirection(rotDir)
+                        if (canArrowEscape(testTile, grid, rows, cols)) {
+                            return tile
+                        }
+                        rotDir = rotDir.rotateClockwise()
+                    }
+                }
+            }
+        }
+
         return null
     }
 
@@ -60,33 +92,40 @@ object PuzzleSolver {
         rows: Int,
         cols: Int
     ): Boolean {
-        // Deep copy grid matrix
         val mutableGrid = initialGrid.map { row -> row.toMutableList() }.toMutableList()
         var madeProgress = true
 
         while (madeProgress) {
             madeProgress = false
 
-            // 1. First, check if any unshielded arrow can escape immediately
-            val freeArrow = findNextEscapableArrow(mutableGrid, rows, cols)
+            // 1. Check if any unshielded arrow can escape immediately
+            var freeArrow: GridTile.ArrowTile? = null
+            outer@ for (r in 0 until rows) {
+                for (c in 0 until cols) {
+                    val tile = mutableGrid[r][c]
+                    if (tile is GridTile.ArrowTile && canArrowEscape(tile, mutableGrid, rows, cols)) {
+                        freeArrow = tile
+                        break@outer
+                    }
+                }
+            }
+
             if (freeArrow != null) {
                 mutableGrid[freeArrow.row][freeArrow.col] = GridTile.Empty
                 madeProgress = true
                 continue
             }
 
-            // 2. If no arrow can escape directly, try interacting with Rotators or Shields
+            // 2. Try interacting with Shields or Rotators
             for (r in 0 until rows) {
                 for (c in 0 until cols) {
                     val tile = mutableGrid[r][c]
                     if (tile is GridTile.ArrowTile) {
                         if (tile.shieldCount > 0) {
-                            // Shatter shield
                             mutableGrid[r][c] = tile.copyWithReducedShield()
                             madeProgress = true
                             break
                         } else if (tile.isRotator) {
-                            // Try rotating to see if a new direction escapes
                             var rotDirection = tile.direction.rotateClockwise()
                             for (rot in 0 until 3) {
                                 val testTile = tile.copyWithNewDirection(rotDirection)
@@ -105,7 +144,6 @@ object PuzzleSolver {
             }
         }
 
-        // Check if all arrows are cleared
         val remainingArrows = mutableGrid.sumOf { row ->
             row.count { it is GridTile.ArrowTile }
         }
