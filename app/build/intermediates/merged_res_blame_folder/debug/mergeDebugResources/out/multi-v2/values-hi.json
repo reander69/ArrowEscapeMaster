@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.arrowescape.master.app-mergeDebugResources-46:/values-hi/values-hi.xml",
+            "outputFile": "com.arrowescape.master.app-mergeDebugResources-43:/values-hi/values-hi.xml",
             "map": [
                 {
                     "source": "/home/kamrul-hasan-riyad/.gradle/caches/8.12/transforms/703316c8929f5f05ecb1e0bdf3663d7b/transformed/ui-release/res/values-hi/values-hi.xml",
