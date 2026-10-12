@@ -76,7 +76,6 @@ class SoundManager(private val context: Context) {
         if (isMuted) return
         val soundId = soundMap[effect] ?: return
         if (soundId != 0) {
-            // Boost volume to maximum (1.0f, 1.0f)
             soundPool?.play(soundId, 1.0f, 1.0f, 1, 0, 1.0f)
         }
     }
@@ -88,8 +87,8 @@ class SoundManager(private val context: Context) {
             SoundEffect.SLIDE_LAUNCH -> 250
             SoundEffect.SHIELD_CRACK -> 150
             SoundEffect.ROTATE -> 100
-            SoundEffect.BLOCKED_SHAKE -> 140
-            SoundEffect.WRONG_PRESS -> 160
+            SoundEffect.BLOCKED_SHAKE -> 180
+            SoundEffect.WRONG_PRESS -> 200
             SoundEffect.VICTORY_CHIME -> 600
             SoundEffect.UNDO -> 100
         }
@@ -120,9 +119,9 @@ class SoundManager(private val context: Context) {
                     sin(2.0 * Math.PI * freq * t) * envelope
                 }
                 SoundEffect.BLOCKED_SHAKE, SoundEffect.WRONG_PRESS -> {
-                    val subFreq = if (progress < 0.5) 120.0 else 90.0
-                    val buzz = sin(2.0 * Math.PI * subFreq * t) + sin(2.0 * Math.PI * (subFreq * 1.5) * t) * 0.5
-                    buzz * envelope
+                    // Heavy, deep arcade error buzzer (90Hz & 65Hz dual low sub-bass buzz)
+                    val buzz = sin(2.0 * Math.PI * 90.0 * t) + sin(2.0 * Math.PI * 65.0 * t) + (Math.random() * 0.4 - 0.2)
+                    (buzz * 0.7) * envelope
                 }
                 SoundEffect.VICTORY_CHIME -> {
                     val noteIdx = (progress * 4).toInt().coerceIn(0, 3)
@@ -135,7 +134,6 @@ class SoundManager(private val context: Context) {
                 }
             }
 
-            // Max amplitude amplification (1.0f multiplier)
             buffer[i] = (sampleVal * 32767.0).toInt().coerceIn(-32768, 32767).toShort()
         }
 
